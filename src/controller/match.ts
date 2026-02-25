@@ -40,7 +40,7 @@ export default class MatchController {
         let match;
         try {
             match = await Matching.matchmaker(req.user!);
-        } catch (error) {
+        } catch (error: any) {
             return res.json({ error, message: error.message });
         }
 

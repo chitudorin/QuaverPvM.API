@@ -14,7 +14,7 @@ export default class Job {
             console.info(`Running ${this.name} cron`);
             try {
                 await func();
-                console.info(`Finished running ${this.name} cron, next execution at ${this.cronJob.nextDate().toISOString()}`);
+                console.info(`Finished running ${this.name} cron, next execution at ${this.cronJob.nextDate().toISO()}`);
             } catch (e) {
                 console.error(`Could not run ${this.name} cron`, e);
             }
@@ -23,6 +23,6 @@ export default class Job {
 
     start() {
         this.cronJob.start();
-        console.info(`Instantiated ${this.name} job, next execution at ${this.cronJob.nextDate().toISOString()}`);
+        console.info(`Instantiated ${this.name} job, next execution at ${this.cronJob.nextDate().toISO()}`);
     }
 }

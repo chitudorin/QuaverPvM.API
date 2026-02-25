@@ -4,8 +4,11 @@ import prisma from "./prisma";
 import redis from "./redis";
 
 import session from "express-session";
-const redisStore = require("connect-redis")(session);
+import connectRedis from "connect-redis";
 import cors from "cors";
+
+// @ts-ignore
+const RedisStore = connectRedis as any;
 
 import passport from "passport";
 
@@ -42,10 +45,9 @@ export default class Server {
                 resave: true,
                 cookie: {
                     secure: false,
-                    maxAge: 30 * 24 * 60 * 60 * 1000, // 30d
-                    // domain: ".icedynamix.moe",
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
                 },
-                store: new redisStore({ client: redis }),
+                store: new RedisStore({ client: redis }),
             })
         );
     }
@@ -142,7 +144,7 @@ export default class Server {
         app.post("/match/submit", Server.requireLogin, MatchController.submitPOST);
 
         app.get("/logout", (req: Request, res: Response) => {
-            req.logout();
+            req.logout(() => {});
             res.redirect(config.clientBaseUrl);
         });
 
